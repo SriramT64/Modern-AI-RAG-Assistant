@@ -22,6 +22,69 @@ The application runs locally using Ollama and provides both a REST API and a web
 - Source retrieval
 - Docker configuration
 
+## 🛠️ Tech Stack
+
+### Programming & Development
+- Python 3.13
+- VS Code
+- Git
+- GitHub
+
+### Generative AI
+- Generative AI
+- Large Language Models (LLMs)
+- Retrieval-Augmented Generation (RAG)
+- Prompt Engineering
+
+### LLM & Embeddings
+- Qwen 2.5 Coder 3B
+- Ollama
+- Nomic Embed Text
+
+### Retrieval & Vector Database
+- ChromaDB
+- Vector Embeddings
+- Semantic Search
+- Top-K Retrieval
+- Hybrid Chunking
+- Keyword Overlap
+- Custom Reranking
+- Relevance Filtering
+
+### Backend
+- FastAPI
+- Uvicorn
+- REST API
+- JSON
+- Swagger UI / OpenAPI
+
+### Frontend
+- Streamlit
+- Chat-based UI
+- Source Document Display
+
+### Evaluation
+- Custom RAG Evaluation Pipeline
+- Retrieval Testing
+- Question-Answer Evaluation
+- `evaluation_results.json`
+
+### Deployment & DevOps
+- Docker
+- Docker Compose
+- Dockerfile
+- `.dockerignore`
+
+### Storage
+- ChromaDB Persistent Storage
+- Local Document Storage
+
+### Architecture
+- End-to-End RAG Architecture
+- API-based Backend
+- Local LLM Inference
+- Conversation Memory
+- Source-aware Responses
 ## 🏗️ Architecture
 
 ```text
