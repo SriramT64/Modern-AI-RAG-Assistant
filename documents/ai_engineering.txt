@@ -1,0 +1,11 @@
+AI engineering is the discipline of building applications and systems that use artificial intelligence models. An AI Engineer works with machine learning models, large language models, APIs, embeddings, vector databases, retrieval systems, AI agents, and deployment technologies.
+
+AI Engineers build applications that can understand text, generate content, analyze data, retrieve information, and automate tasks. Modern AI engineering often involves integrating pretrained models instead of training every model from scratch.
+
+Large Language Models, or LLMs, are commonly used in modern AI applications. AI Engineers connect LLMs with external tools, databases, APIs, and private documents to build useful applications.
+
+Python is one of the most commonly used programming languages in AI engineering. Popular tools and libraries include NumPy, pandas, PyTorch, Transformers, FastAPI, LangChain, and vector databases.
+
+A typical AI application may contain a user interface, an API layer, an AI model, a retrieval system, a database, and monitoring components. Deployment can be performed using cloud platforms or local infrastructure.
+
+Important skills for an AI Engineer include Python programming, machine learning fundamentals, deep learning concepts, LLMs, prompt engineering, embeddings, RAG, vector databases, APIs, Git, Docker, and cloud deployment.

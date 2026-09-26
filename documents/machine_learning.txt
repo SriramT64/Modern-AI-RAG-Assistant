@@ -1,0 +1,15 @@
+Machine learning is a branch of artificial intelligence that enables computers to learn patterns from data and make predictions or decisions without being explicitly programmed for every situation.
+
+Machine learning can be divided into supervised learning, unsupervised learning, and reinforcement learning. Supervised learning uses labeled data, while unsupervised learning finds patterns in data without predefined labels.
+
+Common supervised learning algorithms include linear regression, logistic regression, decision trees, random forests, support vector machines, and K-nearest neighbors.
+
+Classification predicts categories such as spam or not spam. Regression predicts continuous values such as house prices or salaries.
+
+A machine learning workflow usually includes collecting data, cleaning data, preprocessing data, splitting data into training and testing sets, training a model, evaluating the model, and deploying the model.
+
+Common evaluation metrics include accuracy, precision, recall, F1 score, mean squared error, and mean absolute error. The appropriate metric depends on the machine learning problem.
+
+Feature engineering is the process of creating or transforming input features to improve model performance. Model evaluation helps determine whether a model generalizes well to unseen data.
+
+Modern AI Engineers should understand traditional machine learning because many production AI systems combine machine learning models with APIs, databases, LLMs, and other AI technologies.

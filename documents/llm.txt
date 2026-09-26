@@ -1,0 +1,17 @@
+Large Language Models, commonly called LLMs, are artificial intelligence models designed to understand and generate human language.
+
+LLMs are trained on large amounts of text and learn statistical patterns and relationships between tokens. They can perform tasks such as question answering, summarization, text generation, classification, coding, and information extraction.
+
+A token is a unit of text processed by a language model. Tokens can represent words, parts of words, punctuation, or other pieces of text.
+
+A prompt is an instruction or input provided to an LLM. Prompt engineering involves designing instructions that help a model produce useful and reliable outputs.
+
+LLMs can be accessed through APIs or run locally using tools such as Ollama. Running an LLM locally can provide more control over data and infrastructure.
+
+Qwen is a family of language models that can be used for text generation and coding tasks. In a local AI application, an LLM can receive a question and relevant context and generate an answer.
+
+LLMs can also use tools and external systems. An AI application can connect an LLM to databases, APIs, search systems, calculators, or other software.
+
+RAG can improve an LLM application by providing relevant external information in the prompt. Instead of relying only on information encoded in the model, the application retrieves information from a knowledge base.
+
+Important LLM engineering concepts include tokens, context windows, prompts, system messages, temperature, inference, embeddings, tool calling, structured outputs, RAG, agents, evaluation, and deployment.

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Local RAG AI</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background: #f4f4f5;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+        }
+
+
+        .app {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            height: 100vh;
+
+            background: white;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        /* -----------------------------------------
+           Header
+        ----------------------------------------- */
+
+        .header {
+
+            padding: 18px 24px;
+
+            border-bottom: 1px solid #ddd;
+
+            background: white;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 22px;
+        }
+
+
+        .header p {
+
+            margin: 5px 0 0;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        /* -----------------------------------------
+           Chat
+        ----------------------------------------- */
+
+        #chat {
+
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 25px;
+        }
+
+
+        .message {
+
+            margin-bottom: 24px;
+
+            display: flex;
+        }
+
+
+        .user {
+
+            justify-content: flex-end;
+        }
+
+
+        .ai {
+
+            justify-content: flex-start;
+        }
+
+
+        .bubble {
+
+            max-width: 75%;
+
+            padding: 13px 16px;
+
+            border-radius: 16px;
+
+            line-height: 1.5;
+
+            white-space: pre-wrap;
+        }
+
+
+        .user .bubble {
+
+            background: #222;
+
+            color: white;
+
+            border-bottom-right-radius: 4px;
+        }
+
+
+        .ai .bubble {
+
+            background: #f1f1f1;
+
+            color: #222;
+
+            border-bottom-left-radius: 4px;
+        }
+
+
+        /* -----------------------------------------
+           Thinking
+        ----------------------------------------- */
+
+        .thinking {
+
+            color: #888;
+
+            font-style: italic;
+        }
+
+
+        /* -----------------------------------------
+           Sources
+        ----------------------------------------- */
+
+        .sources {
+
+            margin-top: 8px;
+
+            font-size: 13px;
+
+            color: #666;
+        }
+
+
+        .source {
+
+            display: inline-block;
+
+            background: #eee;
+
+            padding: 4px 8px;
+
+            margin-right: 5px;
+
+            margin-top: 4px;
+
+            border-radius: 6px;
+        }
+
+
+        /* -----------------------------------------
+           Input
+        ----------------------------------------- */
+
+        .input-area {
+
+            display: flex;
+
+            gap: 10px;
+
+            padding: 15px 20px;
+
+            border-top: 1px solid #ddd;
+
+            background: white;
+        }
+
+
+        #question {
+
+            flex: 1;
+
+            padding: 13px 15px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+
+        #question:focus {
+
+            border-color: #777;
+        }
+
+
+        #send {
+
+            padding: 0 20px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #222;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        #send:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+        }
+
+
+        /* -----------------------------------------
+           Mobile
+        ----------------------------------------- */
+
+        @media (max-width: 600px) {
+
+            .bubble {
+
+                max-width: 90%;
+            }
+
+            #chat {
+
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- Header -->
+
+    <div class="header">
+
+    <div
+        style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        "
+    >
+
+        <div>
+
+            <h1>🤖 Local RAG AI</h1>
+
+            <p>
+                Ask questions about your local documents
+            </p>
+
+        </div>
+
+        <button
+            onclick="clearConversation()"
+            style="
+                padding:8px 12px;
+                border:1px solid #ccc;
+                background:white;
+                border-radius:8px;
+                cursor:pointer;
+            "
+        >
+            🧹 Clear
+        </button>
+
+    </div>
+
+</div>
+
+    <!-- Chat -->
+
+    <div id="chat"></div>
+
+
+    <!-- Input -->
+
+    <div class="input-area">
+
+        <input
+            id="question"
+            type="text"
+            placeholder="Ask something..."
+            autocomplete="off"
+        >
+
+        <button
+            id="send"
+            onclick="sendQuestion()"
+        >
+            Send
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+const input =
+    document.getElementById("question");
+
+
+const button =
+    document.getElementById("send");
+
+
+const chat =
+    document.getElementById("chat");
+
+
+
+/* -----------------------------------------
+   Enter key
+----------------------------------------- */
+
+input.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+            && !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendQuestion();
+
+        }
+
+    }
+);
+
+
+
+/* -----------------------------------------
+   Send question
+----------------------------------------- */
+
+async function sendQuestion() {
+
+
+    const question =
+        input.value.trim();
+
+
+    if (!question) {
+
+        return;
+
+    }
+
+
+    /* Disable */
+
+    input.disabled = true;
+
+    button.disabled = true;
+
+
+    /* -----------------------------------------
+       User message
+    ----------------------------------------- */
+
+    const userMessage =
+        document.createElement(
+            "div"
+        );
+
+    userMessage.className =
+        "message user";
+
+
+    userMessage.innerHTML = `
+
+        <div class="bubble"></div>
+
+    `;
+
+
+    userMessage
+        .querySelector(".bubble")
+        .textContent = question;
+
+
+    chat.appendChild(
+        userMessage
+    );
+
+
+    input.value = "";
+
+
+    /* -----------------------------------------
+       AI message
+    ----------------------------------------- */
+
+    const aiMessage =
+        document.createElement(
+            "div"
+        );
+
+    aiMessage.className =
+        "message ai";
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+    bubble.className =
+        "bubble thinking";
+
+    bubble.textContent =
+        "Thinking...";
+
+
+    const sources =
+        document.createElement(
+            "div"
+        );
+
+    sources.className =
+        "sources";
+
+
+    aiMessage.appendChild(
+        bubble
+    );
+
+    aiMessage.appendChild(
+        sources
+    );
+
+
+    chat.appendChild(
+        aiMessage
+    );
+
+
+    scrollToBottom();
+
+
+    try {
+
+
+        /* -----------------------------------------
+           API request
+        ----------------------------------------- */
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/chat",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json",
+                        "X-API-Key": "my-super-secret-rag-key-2026"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        question: question
+
+                    })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "API request failed"
+            );
+
+        }
+
+
+        /* Remove thinking */
+
+        bubble.classList.remove(
+            "thinking"
+        );
+
+        bubble.textContent = "";
+
+
+        /* -----------------------------------------
+           Read stream
+        ----------------------------------------- */
+
+        const reader =
+            response.body.getReader();
+
+
+        const decoder =
+            new TextDecoder();
+
+
+        let buffer = "";
+
+
+        while (true) {
+
+
+            const {
+                value,
+                done
+            } =
+                await reader.read();
+
+
+            if (done) {
+
+                break;
+
+            }
+
+
+            buffer +=
+                decoder.decode(
+                    value,
+                    {
+                        stream: true
+                    }
+                );
+
+
+            const events =
+                buffer.split(
+                    "\n\n"
+                );
+
+
+            buffer =
+                events.pop();
+
+
+            for (
+                const event
+                of events
+            ) {
+
+
+                const lines =
+                    event.split("\n");
+
+
+                let eventType =
+                    "";
+
+
+                let data =
+                    "";
+
+
+                for (
+                    const line
+                    of lines
+                ) {
+
+
+                    if (
+                        line.startsWith(
+                            "event:"
+                        )
+                    ) {
+
+                        eventType =
+                            line
+                                .substring(6)
+                                .trim();
+
+                    }
+
+
+                    if (
+                        line.startsWith(
+                            "data:"
+                        )
+                    ) {
+
+                        data +=
+                            line
+                                .substring(5)
+                                .trim();
+
+                    }
+
+                }
+
+
+                if (!data) {
+
+                    continue;
+
+                }
+
+
+                const parsed =
+                    JSON.parse(data);
+
+
+                /* --------------------------------
+                   Source
+                -------------------------------- */
+
+                if (
+                    eventType ===
+                    "source"
+                ) {
+
+
+                    const source =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    source.className =
+                        "source";
+
+
+                    source.textContent =
+                        "📚 " +
+                        parsed.source;
+
+
+                    sources.appendChild(
+                        source
+                    );
+
+                }
+
+
+                /* --------------------------------
+                   Token
+                -------------------------------- */
+
+                if (
+                    eventType ===
+                    "token"
+                ) {
+
+                    bubble.textContent +=
+                        parsed.text;
+
+
+                    scrollToBottom();
+
+                }
+
+            }
+
+        }
+
+
+    }
+
+    catch (error) {
+
+
+        bubble.classList.remove(
+            "thinking"
+        );
+
+
+        bubble.textContent =
+            "❌ Unable to connect to the RAG API.";
+
+
+        console.error(
+            error
+        );
+
+    }
+
+
+    /* Enable */
+
+    input.disabled = false;
+
+    button.disabled = false;
+
+    input.focus();
+
+}
+
+async function clearConversation() {
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/clear",
+            {
+                method: "POST"
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to clear conversation"
+            );
+
+        }
+
+        chat.innerHTML = "";
+
+        input.value = "";
+
+        input.focus();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to clear conversation."
+        );
+
+    }
+
+}
+
+/* -----------------------------------------
+   Auto scroll
+----------------------------------------- */
+
+function scrollToBottom() {
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

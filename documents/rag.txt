@@ -1,0 +1,19 @@
+Retrieval-Augmented Generation, or RAG, is an architecture that allows an AI application to retrieve relevant information from external documents before generating an answer.
+
+A typical RAG system contains document loading, chunking, embedding generation, vector storage, retrieval, context construction, and language model generation.
+
+During document ingestion, large documents are divided into smaller chunks. Each chunk is converted into a numerical representation called an embedding.
+
+Embeddings represent the semantic meaning of text as vectors. Texts with similar meanings tend to have similar vector representations.
+
+A vector database stores embeddings and allows an application to search for relevant information using vector similarity. Chroma is an example of a vector database that can be used for local RAG applications.
+
+When a user asks a question, the question is converted into an embedding. The vector database searches for the most relevant document chunks.
+
+The retrieved chunks are provided to a large language model as context. The language model then generates an answer based on the retrieved information.
+
+RAG is useful when an AI application needs to work with private, domain-specific, frequently changing, or external information that may not be contained in the language model's original training data.
+
+Important RAG concepts include chunking, embeddings, vector databases, similarity search, metadata, retrieval, context windows, prompting, reranking, and evaluation.
+
+A good RAG system should retrieve relevant information and reduce unsupported or hallucinated answers. Retrieval quality and chunk quality have a major effect on the final answer.

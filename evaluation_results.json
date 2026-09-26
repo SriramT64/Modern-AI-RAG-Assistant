@@ -1,0 +1,67 @@
+{
+    "accuracy": 100.0,
+    "passed": 5,
+    "total": 5,
+    "results": [
+        {
+            "question": "What is RAG?",
+            "expected": [
+                "retrieval-augmented generation",
+                "retrieval augmented generation",
+                "retrieve relevant information"
+            ],
+            "answer": "RAG is a retrieval-Augmented Generation technique that allows an AI application to access and retrieve relevant information from external documents to generate answers.",
+            "passed": true,
+            "matched_keyword": "retrieval-augmented generation",
+            "latency": 17.282918691635132
+        },
+        {
+            "question": "Why is RAG useful?",
+            "expected": [
+                "external documents",
+                "domain-specific information",
+                "relevant information"
+            ],
+            "answer": "RAG is useful when an AI application needs to answer questions using private or domain-specific information.",
+            "passed": true,
+            "matched_keyword": "domain-specific information",
+            "latency": 2.449371814727783
+        },
+        {
+            "question": "What does an AI Engineer do?",
+            "expected": [
+                "artificial intelligence",
+                "llms",
+                "rag"
+            ],
+            "answer": "An AI Engineer designs and builds applications that use artificial intelligence models. They work with LLMs, APIs, RAG systems, vector databases, AI agents, and deployment technologies.",
+            "passed": true,
+            "matched_keyword": "artificial intelligence",
+            "latency": 8.14066767692566
+        },
+        {
+            "question": "What is Python?",
+            "expected": [
+                "programming language",
+                "high-level programming language",
+                "simple syntax"
+            ],
+            "answer": "Python is a high-level programming language known for its simple syntax and readability.",
+            "passed": true,
+            "matched_keyword": "programming language",
+            "latency": 5.830946207046509
+        },
+        {
+            "question": "What is the capital of France?",
+            "expected": [
+                "i don't know",
+                "don't know",
+                "available documents"
+            ],
+            "answer": "I don't know based on the available documents.",
+            "passed": true,
+            "matched_keyword": "i don't know",
+            "latency": 0.05071210861206055
+        }
+    ]
+}
